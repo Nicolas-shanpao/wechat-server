@@ -5,7 +5,9 @@ module.exports=function (app) {
     dbserver.findUser(res)
   })
   app.post('/addUser', (req, res) => {
-    console.log(req);
+    console.log(req.body);
+    // dbserver.addUser(res)
     dbserver.findUser(res)
+
   })
 }

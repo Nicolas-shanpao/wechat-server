@@ -9,7 +9,8 @@ exports.findUser = function (res) {
     }
   })
 }
-exports.addUser = function (res) {
+exports.addUser = function (req,res) {
+  console.log(req);
   User.insert({},function (err, val) {
     if (err) {
       console.log('用户数据查找失败！' + err)

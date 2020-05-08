@@ -1,5 +1,8 @@
 const mongoose = require("mongoose")
-mongoose.connect('mongodb://admin:ACElzz2018@119.23.67.3:27017/test');
+mongoose.connect('mongodb://admin:ACElzz2018@119.23.67.3:27017/test', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once("open", function () {
