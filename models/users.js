@@ -2,9 +2,9 @@ const mongoose = require("mongoose")
 var db = require("../config/db")
 // 用户表
 var SchemaUser = new mongoose.Schema({
-  name: String,
-  sex: String,
-  age: Number,
+  name: {type: String, required: true},
+  sex: {type: Number, required: true},
+  age: {type: Number, required: true},
   address: String,
   password: String
 })
