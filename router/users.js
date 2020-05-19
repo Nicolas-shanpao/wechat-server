@@ -59,9 +59,10 @@ module.exports = function (app) {
           })
         } else {
           res.send({
-            code: 200,
-            data: "重名",
-            message: 'Warning'
+            code: 2001,
+            data: "",
+            message: '用户名已存在',
+            type: 'warning',
           })
         }
       }
