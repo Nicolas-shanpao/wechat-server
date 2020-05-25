@@ -25,8 +25,8 @@ var SchemaUser = new mongoose.Schema({
     type: String,
     required: true,
     set(val) {
-      // 通过bcryptjs对密码加密返回值 第一个值返回值， 第二个密码强度
-      return require('bcryptjs').hashSync(val, 10)
+      // 通过bcrypt对密码加密返回值 第一个值返回值， 第二个密码强度
+      return require('bcrypt').hashSync(val, 10)
     }
   }
 })

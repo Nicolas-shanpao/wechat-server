@@ -1,17 +1,11 @@
 const Users = require('../models/Users')
 const request = require('request')
-const md5 = require('js-md5')
-
+const jwt = require('jsonwebtoken')
+const SECRET = require("../config/development")
+const auth = require("../middleware/auth")
 module.exports = function (app) {
-  // 校验中间件
-  const auth = async (req, res) => {
-    const raw = String(req.headers.authorization).split(' ').pop();
-    // 验证
-    const {id} = jwt.verify(raw, SECRET)
-    req.user = await Users.findById(id)
-  }
   //  获取用户列表
-  app.get('/userList', auth, (req, res) => {
+  app.get('/userList', auth, async (req, res) => {
     Users.find({}, {password: 0}, function (err, val) {
       if (err) {
         console.log('用户数据查找失败！' + err)
@@ -25,19 +19,18 @@ module.exports = function (app) {
     })
   })
   //
-  app.get('/findUser', auth, (req, res) => {
-    Users.find({}, {password: 0}, function (err, val) {
-      if (err) {
-        console.log('用户数据查找失败！' + err)
-      } else {
-        res.send(val)
+  app.get('/getUserinfo', auth, async (req, res) => {
+    console.log(req.user);
+    res.send({
+        code: 200,
+        data: {userinfo: req.user},
+        message: 'success'
       }
-    })
+    )
   })
   //  新增用户
-  app.post('/addUser', (req, res) => {
-    console.log(req.body);
-    Users.findOne({name: req.body.name}, {}, function (err, val) {
+  app.post('/addUser', async (req, res) => {
+    Users.findOne({name: req.body.name}, {}, async (err, val) => {
       if (err) {
         console.log('用户数据查找失败！' + err)
       } else {
@@ -49,9 +42,9 @@ module.exports = function (app) {
             age: Number(req.body.age),
             sex: req.body.sex,
             address: req.body.address,
-            password: md5(req.body.password + '')
+            password: req.body.password
           };
-          Users.create(newUser, function (err, val) {
+          Users.create(newUser, async (err, val) => {
             if (err) {
               console.log('用户插入失败！' + err)
               res.send({
@@ -80,7 +73,7 @@ module.exports = function (app) {
 
   })
   // javaAPI
-  app.post('/javaAPI', (req, res) => {
+  app.post('/javaAPI', async (req, res) => {
     console.log(req);
     request('http://bim.checc.com.cn/baisha/bimelements/v1/api/ybgclc/getAllTreeList', (error, response, body) => {
       // console.log('error:', error); // 返回错误信息
@@ -108,7 +101,7 @@ module.exports = function (app) {
       })
     }
 
-    const isPasswordValid = require('bcryptjs').compareSync(
+    const isPasswordValid = require('bcrypt').compareSync(
       req.body.password,
       user.password
     )
@@ -123,8 +116,9 @@ module.exports = function (app) {
 
     // 生成token
     res.send({
-      user,
-      token
+      code: 200,
+      data: {token},
+      message: 'success'
     })
   })
 }
