@@ -96,8 +96,10 @@ module.exports = function (app) {
       username: req.body.username
     })
     if (!user) {
-      return res.status(422).send({
-        message: "用户不存在"
+      return res.send({
+        code: 401,
+        data: '用户名或密码错误！',
+        message: 'error'
       })
     }
 
@@ -106,8 +108,10 @@ module.exports = function (app) {
       user.password
     )
     if (!isPasswordValid) {
-      return res.status(422).send({
-        message: "密码无效"
+      return res.send({
+        code: 401,
+        data: '用户名或密码错误！',
+        message: 'error'
       })
     }
     const token = jwt.sign({
