@@ -7,20 +7,22 @@ var SchemaUser = new mongoose.Schema({
     required: true,
     unique: true //字段是否唯一
   },
+  nikename: {
+    type: String,
+  },
   email: {
     type: String,
-    required: true
   },
   phone: String,
   sex: {
     type: Number,
-    required: true
   },
   age: {
     type: Number,
-    required: true
   },
-  address: String,
+  address: {
+    type: String,
+  },
   password: {
     type: String,
     required: true,
