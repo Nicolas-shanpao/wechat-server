@@ -1,4 +1,4 @@
-const Articles = require('../models/articles')
+const Commonts = require('../models/commonts')
 const auth = require("../middleware/auth")
 module.exports = function (app) {
   //  新增文章
@@ -13,7 +13,7 @@ module.exports = function (app) {
       articleContent: req.body.articleContent,
       comment: req.body.comment
     };
-    Articles.create(newArticle, async (err, val) => {
+    Commonts.create(newArticle, async (err, val) => {
       if (err) {
         console.log('文章插入失败！' + err)
         res.send({
@@ -33,7 +33,7 @@ module.exports = function (app) {
 
   //  获取文章列表
   app.get('/articleList', auth, async (req, res) => {
-    Articles.find({}, function (err, val) {
+    Commonts.find({}, function (err, val) {
       if (err) {
         console.log('文章查找失败！' + err)
       } else {
@@ -47,7 +47,7 @@ module.exports = function (app) {
   })
   //
   app.get('/getArticleDetial', auth, async (req, res) => {
-    Articles.find({_id: req.query.id}, function (err, val) {
+    Commonts.find({_id: req.query.id}, function (err, val) {
       if (err) {
         console.log('文章查找失败！' + err)
       } else {
