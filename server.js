@@ -21,6 +21,7 @@ app.post('/sss', async (req, res) => {
   console.log(req.body);
   res.send(req.body)
 })
+require("./router/user")(app)
 require("./router/users")(app)
 // 404页面
 app.use(function (req, res, next) {
