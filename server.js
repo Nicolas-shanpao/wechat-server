@@ -23,7 +23,6 @@ app.post('/sss', async (req, res) => {
 })
 require("./router/user")(app)
 require("./router/users")(app)
-require("./router/articles")(app)
 // 404页面
 app.use(function (req, res, next) {
   let err = new Error("Not Found");
